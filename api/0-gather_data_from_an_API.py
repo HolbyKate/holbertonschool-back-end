@@ -24,31 +24,36 @@ def to_do(employee_ID):
     todos_url = f"{url}/todos?userId={employee_ID}"
 
     employee_response = requests.get(employee_url)
-    employee_data = employee_response.json()
 
     if employee_response.status_code == 200:
+        employee_data = employee_response.json()
         employee_name = employee_data.get('name')
 
-    todos_response = requests.get(todos_url)
-    todos_data = todos_response.json()
+        todos_response = requests.get(todos_url)
 
-    if todos_response.status_code == 200:
-        total_tasks = len(todos_data)
-        completed_tasks = 0  # Correct indentation here
-        for task in todos_data:
-            completed_tasks += task['completed']
+        if todos_response.status_code == 200:
+            todos_data = todos_response.json()
+            total_tasks = len(todos_data)
+            completed_tasks = 0
 
-        print("Employee {} is done with tasks({}/{}):"
-              .format(employee_name, completed_tasks, total_tasks))
+            for task in todos_data:
+                completed_tasks += task['completed']
 
-        for task in todos_data:
-            if task['completed']:
-                print("\t {}".format(task['title']))
+            print("Employee {} is done with tasks({}/{}):"
+                  .format(employee_name, completed_tasks, total_tasks))
+
+            for task in todos_data:
+                if task['completed']:
+                    print("\t {}".format(task['title']))
+        else:
+            print(f"Error{employee_ID}")
+    else:
+        print(f"Error{employee_ID}")
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("error")
+        print("Error")
         sys.exit(1)
 
     try:
