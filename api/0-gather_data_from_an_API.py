@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""Gather data from an API"""
-
+"""Gather data from an API for a given employee
+ID and display TODO list progress."""
 import requests
 import sys
 
