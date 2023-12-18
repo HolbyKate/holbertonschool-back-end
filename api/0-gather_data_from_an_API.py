@@ -51,5 +51,9 @@ if __name__ == "__main__":
         print("error")
         sys.exit(1)
 
-    employee_id = int(sys.argv[1])
-    to_do(employee_id)
+    try:
+        employee_id = int(sys.argv[1])
+        to_do(employee_id)
+    except ValueError:
+        print("Error")
+        sys.exit(1)
