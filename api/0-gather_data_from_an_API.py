@@ -34,16 +34,16 @@ def to_do(employee_ID):
 
     if todos_response.status_code == 200:
         total_tasks = len(todos_data)
-        completed_tasks = 0
-    for task in todos_data:
-        completed_tasks += task['completed']
+        completed_tasks = 0  # Correct indentation here
+        for task in todos_data:
+            completed_tasks += task['completed']
 
-    print("Employee {} is done with tasks({}/{}):"
-          .format(employee_name, completed_tasks, total_tasks))
+        print("Employee {} is done with tasks({}/{}):"
+              .format(employee_name, completed_tasks, total_tasks))
 
-    for task in todos_data:
-        if task['completed']:
-            print("\t {}".format(task['title']))
+        for task in todos_data:
+            if task['completed']:
+                print("\t {}".format(task['title']))
 
 
 if __name__ == "__main__":
