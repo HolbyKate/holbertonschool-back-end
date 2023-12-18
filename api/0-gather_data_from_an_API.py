@@ -6,6 +6,19 @@ import sys
 
 
 def to_do(employee_ID):
+    """
+    Retrieve employee information and TODO
+    list progress based on the employee ID.
+
+    Args:
+        employee_ID (int): The ID of the employee.
+
+    Returns:
+        None
+
+    Prints:
+        Displays the employee's TODO list progress.
+    """
     url = 'https://jsonplaceholder.typicode.com'
     employee_url = f"{url}/users/{employee_ID}"
     todos_url = f"{url}/todos?userId={employee_ID}"
