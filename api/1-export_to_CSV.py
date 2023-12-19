@@ -11,8 +11,7 @@ def get_employee_progress_csv(employee_ID):
     """
     Retrieve employee information and TODO list progress based on the
     employee ID.
-    The data will be save to a file named in format:
-        <employee_ID>.csv
+    The data will be save to a file named in format:<employee_ID>.csv
     """
     url = 'https://jsonplaceholder.typicode.com'
     employee_url = f"{url}/users/{employee_ID}"
@@ -35,10 +34,8 @@ def get_employee_progress_csv(employee_ID):
         for task in todos_data:
             task_status = str(task.get("completed"))
             task_title = task.get("title")
-            csv_writer.writerow([employee_id,
-                                employee_name,
-                                task_status,
-                                task_title])
+            csv_writer.writerow([employee_id, employee_name,
+                                task_status, task_title])
 
 
 if __name__ == "__main__":
