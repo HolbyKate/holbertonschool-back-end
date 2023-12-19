@@ -1,21 +1,21 @@
 #!/usr/bin/python3
 """Gather data from an API for a given employee
-ID and store TODO list progress in a CSV file"""
+id and store TODO list progress in a CSV file"""
 
 import csv
 import requests
 import sys
 
 
-def get_employee_progress_csv(employee_ID):
+def get_employee_progress_csv(employee_id):
     """
     Retrieve employee information and TODO list progress based on the
-    employee ID.
-    The data will be save to a file named in format:<employee_ID>.csv
+    employee id.
+    The data will be save to a file named in format:<employee_id>.csv
     """
     url = 'https://jsonplaceholder.typicode.com'
-    employee_url = f"{url}/users/{employee_ID}"
-    todos_url = f"{url}/todos?userId={employee_ID}"
+    employee_url = f"{url}/users/{employee_id}"
+    todos_url = f"{url}/todos?userId={employee_id}"
 
     employee_response = requests.get(employee_url)
     employee_data = employee_response.json()
@@ -41,7 +41,7 @@ def get_employee_progress_csv(employee_ID):
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python3 1-export_to_CSV.py <employee_id>")
-        sys.exit(1)
+        raise SystemExit(1)
 
     employee_id = int(sys.argv[1])
     get_employee_progress_csv(employee_id)
