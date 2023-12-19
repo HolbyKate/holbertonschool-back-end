@@ -7,10 +7,9 @@ import sys
 
 def to_do(employee_ID):
     """
-    Retrieve employee information and TODO.list 
+    Retrieve employee information and TODO.list
     progress based on the employee ID
     """
-    
 
     url = 'https://jsonplaceholder.typicode.com'
     employee_url = f"{url}/users/{employee_ID}"
@@ -32,7 +31,7 @@ def to_do(employee_ID):
         completed_tasks += task['completed']
 
     print("Employee {} is done with tasks({}/{}):"
-        .format(employee_name, completed_tasks, total_tasks))
+          .format(employee_name, completed_tasks, total_tasks))
 
     for task in todos_data:
         if task['completed']:
