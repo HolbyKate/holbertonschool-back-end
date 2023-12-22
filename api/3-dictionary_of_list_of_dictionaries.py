@@ -1,57 +1,48 @@
 #!/usr/bin/python3
-"""Gather data from an API for a given employee
-ID and store TODO list progress in a JSON file"""
-
+"""
+Fetches user and todo data from JSONPlaceholder and creates a JSON file
+containing tasks for each user.
+"""
 import json
 import requests
-import sys
 
 
-def get_employee_progress_json(employee_ID):
+def list_dic():
     """
-    Retrieve employee information and TODO list progress based on the
-    employee ID.
-    The data will be save to a file named in format:
-        <employee_ID>.json
+    Fetches user and todo data, processes tasks for each user, and
+    writes the result to a JSON file.
     """
-    url = 'https://jsonplaceholder.typicode.com'
-    employee_url = f"{url}/users/{employee_ID}"
-    todos_url = f"{url}/todos?userId={employee_ID}"
+    url_users = "https://jsonplaceholder.typicode.com/users"
+    url_todos = "https://jsonplaceholder.typicode.com/todos"
 
-    employee_response = requests.get(employee_url)
-    employee_data = employee_response.json()
+    user_response = requests.get(url_users)
+    todos_response = requests.get(url_todos)
 
-    if employee_response.status_code == 200:
-        employee_username = employee_data.get("username")
+    if user_response.status_code == 200 and todos_response.status_code == 200:
+        users = user_response.json()
+        todos = todos_response.json()
 
-    todos_response = requests.get(todos_url)
-    todos_data = todos_response.json()
+        user_dict = {}
 
-    # Create base dictionary and list to contain tasks
-    tasks_dict = {}
-    tasks_list = []
+        for user in users:
+            user_id = str(user.get("id"))
+            tasks_list = []
 
-    # Fill list with dictionaries in requested format for JSON
-    for task in todos_data:
-        tasks_list.append({
-                "task": task.get("title"),
-                "completed": task.get("completed"),
-                "username": employee_username
-            })
+            for todo in todos:
+                if todo.get("userId") == user["id"]:
+                    task = {
+                        "username": user.get("username"),
+                        "task": todo.get("title"),
+                        "completed": todo.get("completed")
+                    }
+                    tasks_list.append(task)
 
-    # Add list to the dictionary
-    tasks_dict[str(employee_ID)] = tasks_list
+            user_dict[user_id] = tasks_list
 
-    # Generate filename and dump dictionary into JSON file
-    json_filename = f"{employee_ID}.json"
-    with open(json_filename, mode="w") as json_file:
-        json.dump(tasks_dict, json_file)
+        filename_json = "todo_all_employees.json"
+        with open(filename_json, "w") as file:
+            json.dump(user_dict, file)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python3 2-export_to_JSON.py <employee_id>")
-        sys.exit(1)
-
-    employee_id = int(sys.argv[1])
-    get_employee_progress_json(employee_id)
+    list_dic()
